@@ -23,6 +23,11 @@ class ScaffoldExample extends StatelessWidget {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightGreen,
+        child: Icon(Icons.add),
+        onPressed: () => debugPrint("button float"),
+      ),
       bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.add_circle), title:Text("First")),
