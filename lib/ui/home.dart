@@ -1,6 +1,164 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/model/question.dart';
 import 'package:untitled/util/hexcolor.dart';
+
+class QuizApp extends StatefulWidget {
+  @override
+  _QuizAppState createState() => _QuizAppState();
+}
+
+class _QuizAppState extends State<QuizApp> {
+  int _currentQuestionIndex = 0;
+  List questionBank = [
+    Question.name(
+        "The U.S. Declaration of Independence was adopted in 1776.", true),
+    Question.name("The Supreme law of the land is the Constitution.", true),
+    Question.name(
+        "The two rights in the Declaration of Independence are:"
+        "  \n Life  "
+        "  \n Pursuit of happiness.",
+        true),
+    Question.name("The (U.S.) Constitution has 26 Amendments.", false),
+    Question.name(
+        "Freedom of religion means:\nYou can practice any religion, "
+        "or not practice a religion.",
+        true),
+    Question.name("Journalist is one branch or part of the government.", false),
+    Question.name("The Congress does not make federal laws.", false),
+    Question.name("There are 100 U.S. Senators.", true),
+    Question.name("We elect a U.S. Senator for 4 years.", false), //6
+    Question.name("We elect a U.S. Representative for 2 years", true),
+    Question.name(
+        "A U.S. Senator represents all people of the United States", false),
+    Question.name("We vote for President in January.", false),
+    Question.name("Who vetoes bills is the President.", true),
+    Question.name("The Constitution was written in 1787.", true),
+    Question.name('George Bush is the \ " Father of Our Country " \.', false)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("True cityzen"),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey,
+      ),
+      backgroundColor: Colors.blueGrey,
+      //use Builder to use Context, a descendant of Scaffold or Scaffold.of will return null
+      body: Builder(
+        builder: (BuildContext context) => Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Image.asset(
+                  "images/flag.png",
+                  width: 250,
+                  height: 180,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: Colors.blueGrey.shade400,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  height: 120.0,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        questionBank[_currentQuestionIndex].questionText,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () => _previousQuestion(),
+                    color: Colors.blueGrey.shade900,
+                    child: Icon(Icons.arrow_back, color: Colors.white),
+                  ),
+                  RaisedButton(
+                    onPressed: () => _checkAnswer(true, context),
+                    color: Colors.blueGrey.shade900,
+                    child: Text("TRUE", style: TextStyle(color: Colors.white)),
+                  ),
+                  RaisedButton(
+                    onPressed: () => _checkAnswer(false, context),
+                    color: Colors.blueGrey.shade900,
+                    child: Text("FALSE", style: TextStyle(color: Colors.white)),
+                  ),
+                  RaisedButton(
+                    onPressed: () => _nextQuestion(),
+                    color: Colors.blueGrey.shade900,
+                    child: Icon(Icons.arrow_forward, color: Colors.white),
+                  ),
+                ],
+              ),
+              Spacer(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _checkAnswer(bool userChoice, BuildContext context) {
+    if (userChoice == questionBank[_currentQuestionIndex].isCorrect) {
+      final snackBar = SnackBar(
+        duration: Duration(milliseconds:500),
+        content: Text(
+          "Correct answer",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.green,
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    } else {
+      final snackBar = SnackBar(
+        duration: Duration(milliseconds:500),
+        content: Text(
+          "Incorrect answer",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.red,
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+    _nextQuestion();
+  }
+
+  _nextQuestion() {
+    setState(() {
+      _currentQuestionIndex = (_currentQuestionIndex + 1) % questionBank.length;
+    });
+  }
+
+  _previousQuestion() {
+    setState(() {
+      _currentQuestionIndex = (_currentQuestionIndex - 1) % questionBank.length;
+    });
+  }
+}
 
 class BillSplitter extends StatefulWidget {
   @override
@@ -35,7 +193,8 @@ class _BillSplitterState extends State<BillSplitter> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Total per person",
+                    Text(
+                      "Total per person",
                       style: TextStyle(
                         fontSize: 15,
                         color: _purple,
@@ -43,7 +202,8 @@ class _BillSplitterState extends State<BillSplitter> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text("\$ ${calculateTotalPerPerson(_billAmount, _personCounter, _tipPercentage)}",
+                      child: Text(
+                        "\$ ${calculateTotalPerPerson(_billAmount, _personCounter, _tipPercentage)}",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -200,7 +360,8 @@ class _BillSplitterState extends State<BillSplitter> {
                           max: 100,
                           activeColor: _purple,
                           inactiveColor: Colors.grey,
-                          divisions: 20,//optional
+                          divisions: 20,
+                          //optional
                           value: _tipPercentage.toDouble(),
                           onChanged: (double newValue) {
                             setState(() {
@@ -218,17 +379,17 @@ class _BillSplitterState extends State<BillSplitter> {
     );
   }
 
-  calculateTotalPerPerson(double billAmount, int splitBy, int tipPercentage){
-    var totalPerPerson = (calculateTotalTip(billAmount, splitBy, tipPercentage) + billAmount) / splitBy;
+  calculateTotalPerPerson(double billAmount, int splitBy, int tipPercentage) {
+    var totalPerPerson =
+        (calculateTotalTip(billAmount, splitBy, tipPercentage) + billAmount) /
+            splitBy;
     return totalPerPerson.toStringAsFixed(2);
   }
 
-  calculateTotalTip(double billAmount, int splitBy, int tipPercentage){
+  calculateTotalTip(double billAmount, int splitBy, int tipPercentage) {
     double totalTip = 0.0;
-    if(billAmount < 0 || billAmount.toString().isEmpty || billAmount == null){
-
-    }
-    else{
+    if (billAmount < 0 || billAmount.toString().isEmpty || billAmount == null) {
+    } else {
       totalTip = (billAmount * tipPercentage) / 100;
     }
     return totalTip;
