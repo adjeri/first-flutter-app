@@ -1,3 +1,4 @@
+import 'package:first_flutter_app/ui/movie_ui/movie_ui.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/home.dart';
