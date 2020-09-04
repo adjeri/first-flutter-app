@@ -45,9 +45,9 @@ class _QuizAppState extends State<QuizApp> {
       appBar: AppBar(
         title: Text("True cityzen"),
         centerTitle: true,
-        backgroundColor: Colors.blueGrey,
+        // backgroundColor: Colors.blueGrey,
       ),
-      backgroundColor: Colors.blueGrey,
+      // backgroundColor: Colors.blueGrey,
       //use Builder to use Context, a descendant of Scaffold or Scaffold.of will return null
       body: Builder(
         builder: (BuildContext context) => Container(
@@ -78,10 +78,10 @@ class _QuizAppState extends State<QuizApp> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         questionBank[_currentQuestionIndex].questionText,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                        // style: TextStyle(
+                        //   fontSize: 16,
+                        //   color: Colors.white,
+                        // ),
                       ),
                     ),
                   ),
