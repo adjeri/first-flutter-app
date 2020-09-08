@@ -1,6 +1,6 @@
-# untitled
+# My first flutter app
 
-A new Flutter project.
+I started my learning of Flutter with this. It can be separated in small independant applications as it has features such as a quiz, inspiration quotes, a bizcard and others.
 
 ## Getting Started
 
