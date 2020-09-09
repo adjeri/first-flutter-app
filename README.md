@@ -1,6 +1,7 @@
 # My first flutter app
 
 I started my learning of Flutter with this. It can be separated in small independant applications as it has features such as a quiz, inspiration quotes, a bizcard and others.
+To test each features, call it in the main.dart file 
 
 ## Getting Started
 
